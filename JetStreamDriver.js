@@ -730,7 +730,6 @@ class Benchmark {
 
         addScript(`
             const isInBrowser = ${isInBrowser};
-            const isD8 = ${isD8};
             if (typeof performance.mark === 'undefined') {
                 performance.mark = function() {};
             }
@@ -740,7 +739,7 @@ class Benchmark {
             function performanceMeasure(name, mark) {
                 // D8 does not implement the official web API.
                 // Also the performance.mark polyfill returns an undefined mark.
-                if (isD8 || typeof mark === "undefined")
+                if (!isInBrowser || typeof mark === "undefined")
                     performance.measure(name, mark);
                 else
                     performance.measure(name, mark.name);
